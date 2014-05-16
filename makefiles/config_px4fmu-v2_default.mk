@@ -134,18 +134,25 @@ MODULES		+= examples/px4_simple_app
 
 # Tutorial code from
 # https://pixhawk.ethz.ch/px4/dev/daemon
-#MODULES		+= examples/px4_daemon_app
+MODULES		+= examples/px4_daemon_app
 
 # Tutorial code from
 # https://pixhawk.ethz.ch/px4/dev/debug_values
-#MODULES		+= examples/px4_mavlink_debug
+MODULES		+= examples/px4_mavlink_debug
 
 # Tutorial code from
 # https://pixhawk.ethz.ch/px4/dev/example_fixedwing_control
 #MODULES			+= examples/fixedwing_control
 
+# CHM - test code for flow_position_contorl
+#
+MODULES		+= examples/flow_position_control
+
+
+
+
 # Hardware test
-#MODULES			+= examples/hwtest
+MODULES			+= examples/hwtest
 
 #
 # Transitional support - add commands from the NuttX export archive.

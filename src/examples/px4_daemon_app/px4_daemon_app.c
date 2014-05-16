@@ -83,7 +83,8 @@ usage(const char *reason)
  */
 int px4_daemon_app_main(int argc, char *argv[])
 {
-	if (argc < 1)
+	// CHM - argc = no. of argument + 1
+	if (argc < 2)
 		usage("missing command");
 
 	if (!strcmp(argv[1], "start")) {
@@ -99,7 +100,7 @@ int px4_daemon_app_main(int argc, char *argv[])
 					 SCHED_DEFAULT,
 					 SCHED_PRIORITY_DEFAULT,
 					 4096,
-					 px4_daemon_thread_main,
+					 px4_daemon_thread_main,	// CHM - the thread name
 					 (argv) ? (const char **)&argv[2] : (const char **)NULL);
 		exit(0);
 	}

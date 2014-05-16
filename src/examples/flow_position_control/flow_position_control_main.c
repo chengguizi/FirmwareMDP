@@ -90,6 +90,9 @@ static void usage(const char *reason);
 static void
 usage(const char *reason)
 {
+/*
+ * CHM - This print lines through nsh terminal
+ */
 	if (reason)
 		fprintf(stderr, "%s\n", reason);
 	fprintf(stderr, "usage: deamon {start|stop|status} [-p <additional params>]\n\n");
@@ -119,6 +122,10 @@ int flow_position_control_main(int argc, char *argv[])
 		}
 
 		thread_should_exit = false;
+
+/**
+ *  CHM - this looks like how to call a deamon in command!
+ */
 		deamon_task = task_spawn_cmd("flow_position_control",
 					 SCHED_DEFAULT,
 					 SCHED_PRIORITY_MAX - 6,
@@ -154,7 +161,9 @@ flow_position_control_thread_main(int argc, char *argv[])
 	/* welcome user */
 	thread_running = true;
 	static int mavlink_fd;
+	// CHM - not sure why 2nd parameter is 0
 	mavlink_fd = open(MAVLINK_LOG_DEVICE, 0);
+	// CHM - this will send a message to QGroundControl
 	mavlink_log_info(mavlink_fd, "[fpc] started");
 
 	uint32_t counter = 0;
@@ -185,6 +194,7 @@ flow_position_control_thread_main(int argc, char *argv[])
 	int filtered_bottom_flow_sub = orb_subscribe(ORB_ID(filtered_bottom_flow));
 	int vehicle_local_position_sub = orb_subscribe(ORB_ID(vehicle_local_position));
 
+	// CHM - Do NOT understand
 	orb_advert_t speed_sp_pub;
 	bool speed_setpoint_adverted = false;
 
@@ -235,6 +245,14 @@ flow_position_control_thread_main(int argc, char *argv[])
 			struct pollfd fds[2] = {
 				{ .fd = filtered_bottom_flow_sub, .events = POLLIN }, // positions from estimator
 				{ .fd = parameter_update_sub,   .events = POLLIN }
+/*
+ * #define POLLIN      0x0001    There is data to read
+ *   #define POLLPRI     0x0002     There is urgent data to read
+ *   #define POLLOUT     0x0004     Writing now will not block
+ *  #define POLLERR     0x0008     Error condition
+ *  #define POLLHUP     0x0010     Hung up
+ *  #define POLLNVAL    0x0020     Invalid request: fd not open
+ */
 
 			};
 
@@ -284,6 +302,7 @@ flow_position_control_thread_main(int argc, char *argv[])
 
 					if (control_mode.flag_control_velocity_enabled)
 					{
+						// CHM - manual -> manual_control_setpoint contains RC input values
 						float manual_pitch = manual.pitch / params.rc_scale_pitch; // 0 to 1
 						float manual_roll = manual.roll / params.rc_scale_roll; // 0 to 1
 						float manual_yaw = manual.yaw / params.rc_scale_yaw; // -1 to 1
@@ -297,7 +316,8 @@ flow_position_control_thread_main(int argc, char *argv[])
 						if(last_time == 0)
 						{
 							last_time = hrt_absolute_time();
-							continue;
+							continue; // CHM - Going back to the start of the while loop
+
 						}
 						dt = ((float) (hrt_absolute_time() - last_time)) * time_scale;
 						last_time = hrt_absolute_time();
