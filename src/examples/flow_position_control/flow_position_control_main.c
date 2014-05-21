@@ -274,6 +274,7 @@ flow_position_control_thread_main(int argc, char *argv[])
 				/* parameter update available? */
 				if (fds[1].revents & POLLIN)
 				{
+					// CHM - always keep local parameters in sync with the actual parameters
 					/* read from param to clear updated flag */
 					struct parameter_update_s update;
 					orb_copy(ORB_ID(parameter_update), parameter_update_sub, &update);
