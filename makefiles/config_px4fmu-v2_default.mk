@@ -146,7 +146,7 @@ MODULES		+= examples/px4_mavlink_debug
 
 # CHM - test code for flow_position_contorl
 #
-MODULES		+= examples/flow_position_control
+#MODULES		+= examples/flow_position_control
 
 
 
